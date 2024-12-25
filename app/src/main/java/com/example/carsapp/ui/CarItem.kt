@@ -63,7 +63,6 @@ fun CarItem(
                 Spacer(modifier = Modifier.height(20.dp))
                 Rating(car = car)
             }
-
             BuyButton(car = car)
         }
     }

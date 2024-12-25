@@ -36,9 +36,9 @@ import com.example.carsapp.ui.theme.Primary
 @Composable
 fun Pager(modifier: Modifier = Modifier) {
 
-    var state by remember { mutableStateOf(0) }
-    val titles = listOf("Luxurious", "VIP Cars")
-    Column  {
+    Column(
+        modifier = modifier
+    )  {
         Spacer(modifier = Modifier.height(10.dp))
         Text(
             text = "Luxurious\nRental Cars",
