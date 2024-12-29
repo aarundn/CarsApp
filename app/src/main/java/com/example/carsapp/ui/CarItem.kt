@@ -224,6 +224,7 @@ private fun HomeCarItemPreview() {
                 .fillMaxWidth()
                 .height(230.dp),
             Car(
+                id = 1,
                 name = "Porsche 911 Turbo S",
                 image = R.drawable.porsche_car,
                 color = Color.Yellow,

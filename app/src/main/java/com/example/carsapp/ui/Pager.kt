@@ -50,14 +50,13 @@ fun Pager(modifier: Modifier = Modifier) {
             )
         Spacer(modifier = Modifier.height(10.dp))
         Column {
-            var selectedCategory by remember { mutableStateOf(HomeCategory.Library) }
-            val categories = listOf(HomeCategory.Library, HomeCategory.Discover)
+            var selectedCategory by remember { mutableStateOf(CarCategory.Luxurious) }
+            val categories = listOf(CarCategory.Luxurious, CarCategory.VipCars)
 
             HomeCategoryTabs(
                 categories = categories,
                 selectedCategory = selectedCategory,
                 onCategorySelected = { selectedCategory = it },
-                showHorizontalLine = true,
                 modifier = Modifier.fillMaxWidth()
             )
         }
@@ -67,10 +66,9 @@ fun Pager(modifier: Modifier = Modifier) {
 
 @Composable
 private fun HomeCategoryTabs(
-    categories: List<HomeCategory>,
-    selectedCategory: HomeCategory,
-    onCategorySelected: (HomeCategory) -> Unit,
-    showHorizontalLine: Boolean,
+    categories: List<CarCategory>,
+    selectedCategory: CarCategory,
+    onCategorySelected: (CarCategory) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     if (categories.isEmpty()) {
@@ -79,7 +77,7 @@ private fun HomeCategoryTabs(
 
     val selectedIndex = categories.indexOfFirst { it == selectedCategory }
     val indicator = @Composable { tabPositions: List<TabPosition> ->
-        HomeCategoryTabIndicator(
+        CarCategoryTabIndicator(
             Modifier.tabIndicatorOffset(tabPositions[selectedIndex])
         )
     }
@@ -89,11 +87,9 @@ private fun HomeCategoryTabs(
         containerColor = Color.Transparent,
         indicator = indicator,
         modifier = modifier,
-        divider = {
-            if (showHorizontalLine) {
-                HorizontalDivider()
-            }
-        }
+        divider =
+        { HorizontalDivider() }
+
     ) {
         categories.forEachIndexed { index, category ->
             Tab(
@@ -101,14 +97,14 @@ private fun HomeCategoryTabs(
                 onClick = { onCategorySelected(category) },
                 text = {
                     when (category) {
-                        HomeCategory.Library -> Text(
+                        CarCategory.Luxurious -> Text(
                             text = stringResource(R.string.home_library),
                             color = Color.White,
                             fontWeight = FontWeight.SemiBold,
                             fontSize = 16.sp
                         )
 
-                        HomeCategory.Discover -> Row(
+                        CarCategory.VipCars -> Row(
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Text(
@@ -138,7 +134,7 @@ private fun HomeCategoryTabs(
 }
 
 @Composable
-private fun HomeCategoryTabIndicator(
+private fun CarCategoryTabIndicator(
     modifier: Modifier = Modifier,
     color: Color = Color.White,
 ) {
@@ -149,8 +145,8 @@ private fun HomeCategoryTabIndicator(
     )
 }
 
-enum class HomeCategory {
-    Library, Discover
+enum class CarCategory {
+    Luxurious, VipCars
 }
 
 

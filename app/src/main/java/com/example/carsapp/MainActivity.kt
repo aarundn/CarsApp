@@ -24,10 +24,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.example.carsapp.ui.BottomBar
 import com.example.carsapp.ui.CarList
 import com.example.carsapp.ui.Pager
 import com.example.carsapp.ui.TopBar
+import com.example.carsapp.ui.navigation.Details
+import com.example.carsapp.ui.navigation.Home
 import com.example.carsapp.ui.theme.Blur
 import com.example.carsapp.ui.theme.CarsAppTheme
 import dev.chrisbanes.haze.HazeState
@@ -46,43 +53,67 @@ class MainActivity : ComponentActivity() {
                 val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(
                     state = rememberTopAppBarState()
                 )
+                val navController = rememberNavController()
+                val navBackStackEntry = navController.currentBackStackEntryAsState()
+                val currentRoute = navBackStackEntry.value?.destination?.route
                 Scaffold(
                     modifier = Modifier
-                            .fillMaxSize()
+                        .fillMaxSize()
                         .nestedScroll(scrollBehavior.nestedScrollConnection)
                         .background(MaterialTheme.colorScheme.background),
                     containerColor = Color.Transparent,
                     topBar = {
-                        Column {
-                            TopBar(
-                                modifier = Modifier.hazeChild(state = hazState),
-                                scrollBehavior = scrollBehavior
-                            )
-                            Pager(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .hazeChild(state = hazState),
+                        if (currentRoute == Home.route) { // Show only on HomeScreen
+                            Column {
+                                TopBar(
+                                    modifier = Modifier.hazeChild(state = hazState),
+                                    scrollBehavior = scrollBehavior
                                 )
+                                Pager(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .hazeChild(state = hazState),
+                                )
+                            }
                         }
                     }
                 ) { innerPadding ->
-                    HomeScreen(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        hazeState = hazState,
-                        paddingValues = innerPadding
-                    )
+                    NavHost(
+                        navController = navController,
+                        startDestination = Home.route,
+                    ) {
+                        composable(route = Home.route) {
+                            HomeScreen(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                hazeState = hazState,
+                                paddingValues = innerPadding,
+                                onGoToDetails = { carId ->
+                                    navController.navigate("${Details.route}/$carId")
+                                }
+                            )
+                        }
+                        composable(
+                            route = Details.routeWithArgs,
+                            arguments = Details.arguments
+                        ) { backStackEntry ->
+                            val carId = backStackEntry.arguments?.getInt(Details.carIdArg)
+                            DetailsScreen(carId = carId)
+                        }
+                    }
                 }
             }
         }
     }
 }
 
+
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
     hazeState: HazeState,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    onGoToDetails : (Int) -> Unit,
 ) {
     Box(
         modifier = modifier
@@ -99,7 +130,8 @@ fun HomeScreen(
                     )
 
                 ),
-            paddingValues = paddingValues
+            paddingValues = paddingValues,
+            onGoToDetails = onGoToDetails
         )
         BottomBar(
             modifier = Modifier

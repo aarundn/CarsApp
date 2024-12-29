@@ -8,6 +8,7 @@ import com.example.carsapp.ui.theme.Secondary
 
 
 data class Car(
+    val id : Int,
     val name: String,
     @DrawableRes val image: Int,
     val color: Color,
@@ -23,6 +24,7 @@ data class Car(
 
 val luxuriousCars = listOf(
     Car(
+        id = 1,
         name = "Ferrari SF90 Stradale",
         image = R.drawable.ferrari_car,
         color = Color.Red,
@@ -37,6 +39,7 @@ val luxuriousCars = listOf(
         bgColor = Primary
     ),
     Car(
+        id = 2,
         name = "Rolls-Royce Phantom",
         image = R.drawable.rolls_royce_car,
         color = Color.Black,
@@ -51,6 +54,7 @@ val luxuriousCars = listOf(
         bgColor = Secondary
     ),
     Car(
+        id = 3,
         name = "Porsche 911 Turbo S",
         image = R.drawable.porsche_car,
         color = Color.Yellow,
@@ -65,6 +69,7 @@ val luxuriousCars = listOf(
         bgColor = Primary
     ),
     Car(
+        id = 4,
         name = "Lamborghini Aventador",
         image = R.drawable.lamborghini_car,
         color = Color.White,
@@ -79,3 +84,9 @@ val luxuriousCars = listOf(
         bgColor = Secondary
     )
 )
+
+fun getCar(
+    carId: Int
+): Car = luxuriousCars.find {
+    it.id == carId
+}!!
