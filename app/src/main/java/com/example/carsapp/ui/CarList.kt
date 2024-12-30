@@ -10,14 +10,15 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import com.example.carsapp.ui.navigation.Details
+import androidx.lifecycle.ViewModel
+import com.example.carsapp.ui.viewmodel.SharedViewModel
 
 @Composable
 fun CarList(
-    onGoToDetails: (Int) -> Unit,
+    onGoToDetails: () -> Unit,
     modifier: Modifier = Modifier,
-    paddingValues: PaddingValues
+    paddingValues: PaddingValues,
+    viewModel:SharedViewModel
 ) {
     LazyColumn (
         modifier = modifier,
@@ -32,7 +33,8 @@ fun CarList(
                 modifier = Modifier.fillMaxWidth()
                     .height(230.dp)
                     .clickable {
-                        onGoToDetails(car.id)
+                        viewModel.selectCar(car)
+                        onGoToDetails()
                     },
             )
             Spacer(modifier = Modifier.height(16.dp))
