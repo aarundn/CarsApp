@@ -15,10 +15,4 @@ object Home : CarDestination {
 
 object Details : CarDestination {
     override val route = "details"
-    const val carIdArg = "carId"
-    val routeWithArgs = "$route/{$carIdArg}"
-
-    val arguments = listOf(
-        navArgument(carIdArg) { type = NavType.IntType }
-    )
 }

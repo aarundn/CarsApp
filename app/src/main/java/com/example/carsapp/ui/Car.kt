@@ -10,6 +10,7 @@ import com.example.carsapp.ui.theme.Secondary
 data class Car(
     val id : Int,
     val name: String,
+    val description: String,
     @DrawableRes val image: Int,
     val color: Color,
     @DrawableRes val logo: Int,
@@ -26,6 +27,8 @@ val luxuriousCars = listOf(
     Car(
         id = 1,
         name = "Ferrari SF90 Stradale",
+        description = "The Ferrari SF90 Stradale is a mid-engine PHEV " +
+                "sports car produced by the Italian automobile manufacturer Ferrari.",
         image = R.drawable.ferrari_car,
         color = Color.Red,
         logo = R.drawable.ferrari_logo,
@@ -41,6 +44,8 @@ val luxuriousCars = listOf(
     Car(
         id = 2,
         name = "Rolls-Royce Phantom",
+        description = "The Rolls-Royce Phantom is a full-sized luxury " +
+                "saloon manufactured by Rolls-Royce Motor Cars. ",
         image = R.drawable.rolls_royce_car,
         color = Color.Black,
         logo = R.drawable.rolls_royce_logo,
@@ -56,6 +61,8 @@ val luxuriousCars = listOf(
     Car(
         id = 3,
         name = "Porsche 911 Turbo S",
+        description = "The Porsche 911 Turbo S is a high-performance " +
+                "variant of the Porsche 911 sports car.",
         image = R.drawable.porsche_car,
         color = Color.Yellow,
         logo = R.drawable.porsche_logo,
@@ -71,6 +78,8 @@ val luxuriousCars = listOf(
     Car(
         id = 4,
         name = "Lamborghini Aventador",
+        description = "The Lamborghini Aventador is a mid-engine sports car " +
+                "produced by the Italian automotive manufacturer Lamborghini.",
         image = R.drawable.lamborghini_car,
         color = Color.White,
         logo = R.drawable.lamborghini_logo,

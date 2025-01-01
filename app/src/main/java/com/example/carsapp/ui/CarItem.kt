@@ -226,6 +226,8 @@ private fun HomeCarItemPreview() {
             Car(
                 id = 1,
                 name = "Porsche 911 Turbo S",
+                description = "The Porsche 911 Turbo S is a high-performance " +
+                        "variant of the Porsche 911 sports car.",
                 image = R.drawable.porsche_car,
                 color = Color.Yellow,
                 logo = R.drawable.porsche_logo,

@@ -49,6 +49,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             CarsAppTheme {
                 val hazState = remember { HazeState() }
+                val viewModel = SharedViewModel()
                 val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(
                     state = rememberTopAppBarState()
                 )
@@ -86,16 +87,18 @@ class MainActivity : ComponentActivity() {
                                 paddingValues = innerPadding,
                                 onGoToDetails = {
                                     navController.navigate(Details.route)
-                                }
+                                },
+                                viewModel = viewModel
                             )
                         }
                     }
                     composable(
-                        route = Details.routeWithArgs,
-                        arguments = Details.arguments
-                    ) { backStackEntry ->
-                        val carId = backStackEntry.arguments?.getInt(Details.carIdArg)
-                        DetailsScreen(carId = carId)
+                        route = Details.route,
+                    ) {
+                        DetailsScreen(
+                            viewModel = viewModel,
+                            navController = navController
+                        )
                     }
                 }
             }
@@ -110,6 +113,7 @@ fun HomeScreen(
     hazeState: HazeState,
     paddingValues: PaddingValues,
     onGoToDetails: () -> Unit,
+    viewModel: SharedViewModel
 ) {
     Box(
         modifier = modifier
@@ -128,7 +132,7 @@ fun HomeScreen(
                 ),
             paddingValues = paddingValues,
             onGoToDetails = onGoToDetails,
-            viewModel = SharedViewModel()
+            viewModel = viewModel
         )
         BottomBar(
             modifier = Modifier
