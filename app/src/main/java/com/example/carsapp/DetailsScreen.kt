@@ -50,12 +50,13 @@ import com.example.carsapp.ui.Car
 import com.example.carsapp.ui.Rater
 
 import com.example.carsapp.ui.theme.CarsAppTheme
+import com.example.carsapp.ui.theme.Primary
 import com.example.carsapp.ui.viewmodel.SharedViewModel
 
 @Composable
 fun DetailsScreen(
     viewModel: SharedViewModel,
-    navController : NavController
+    navController: NavController
 ) {
 
     Surface(
@@ -76,7 +77,7 @@ fun DetailsScreen(
                 color = Color.White
             )
             DetailsScreenContent(
-                onBackClick = {navController.popBackStack()},
+                onBackClick = { navController.popBackStack() },
                 selectedCar = viewModel.selectedCar.collectAsState().value!!
             )
         }
@@ -86,98 +87,141 @@ fun DetailsScreen(
 
 @Composable
 fun DetailsScreenContent(
-    modifier: Modifier = Modifier,
     onBackClick: () -> Unit,
     selectedCar: Car
 ) {
-    Column(
-        modifier = modifier
+    Box(
+        modifier = Modifier
             .fillMaxSize()
+            .padding(bottom = 16.dp, end = 16.dp)
             .background(color = MaterialTheme.colorScheme.background)
-            .padding(16.dp)
     ) {
-        Icon(
-            imageVector = Icons.Default.ArrowBack,
-            contentDescription = "Back",
-            tint = Color.White,
+        Column(
             modifier = Modifier
-                .background(
-                    color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),
-                    shape = CircleShape
-                )
-                .size(40.dp)
-                .padding(4.dp)
-                .clickable {
-                    onBackClick()
-                },
-
-            )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxSize()
+                .background(color = MaterialTheme.colorScheme.background)
+                .padding(start = 16.dp, top = 16.dp)
         ) {
-            Column {
-                CarCard(selectedCar, modifier, onBackClick)
-                Spacer(modifier = Modifier
-                    .height(50.dp)
-                    .fillMaxWidth()
+            Icon(
+                imageVector = Icons.Default.ArrowBack,
+                contentDescription = "Back",
+                tint = Color.White,
+                modifier = Modifier
                     .background(
-                        selectedCar.bgColor
-                    ).padding(start = 24.dp)
+                        color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),
+                        shape = CircleShape
+                    )
+                    .size(40.dp)
+                    .padding(4.dp)
+                    .clickable {
+                        onBackClick()
+                    },
+
+                )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Column {
+                    CarCard(selectedCar, Modifier, onBackClick)
+                    Spacer(
+                        modifier = Modifier
+                            .height(30.dp)
+                            .fillMaxWidth()
+                            .background(
+                                selectedCar.bgColor
+                            )
+                            .padding(start = 24.dp)
+                    )
+
+                }
+
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(30.dp)
+                        .background(
+                            MaterialTheme.colorScheme.background,
+                            RoundedCornerShape(topEnd = 60.dp)
+                        )
+                        .align(Alignment.BottomCenter)
                 )
 
             }
-
-            Spacer(
+            Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(50.dp)
-                    .background(
-                        MaterialTheme.colorScheme.background,
-                        RoundedCornerShape(topEnd = 60.dp)
-                    )
-                    .align(Alignment.BottomCenter)
-            )
+                    .padding(start = 16.dp, end = 16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
+
+            ) {
+                CartInfos(image = R.drawable.ic_car, text = "300Km")
+                CartInfos(image = R.drawable.joystick, text = "550hs")
+                CartInfos(image = R.drawable.gear, text = "Deep")
+            }
+            Spacer(modifier = Modifier.height(16.dp))
 
         }
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
-
-        ) {
-            CartInfos(image = R.drawable.ic_car,text = "300Km")
-            CartInfos(image = R.drawable.joystick,text = "550hs")
-            CartInfos(image = R.drawable.gear,text = "Deep")
-        }
-        Spacer(modifier = Modifier.height(16.dp))
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp),
+                .align(
+                    Alignment.BottomCenter
+                ),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = "Book your car",
+                text = "$${selectedCar.price}.00",
                 color = MaterialTheme.colorScheme.onBackground,
                 fontWeight = FontWeight.Bold,
-                fontSize = 16.sp,
+                fontSize = 24.sp,
                 modifier = Modifier
-                    .padding(top = 16.dp)
+                    .padding(start = 16.dp),
+
+                )
+            Spacer(modifier = Modifier.width(8.dp))
+            Row(
+                modifier = Modifier
+                    .background(
+                        MaterialTheme.colorScheme.onBackground.copy(alpha = 0.3f),
+                        shape = RoundedCornerShape(50.dp)
+                    )
+                    .padding(start = 16.dp, top = 4.dp, end = 16.dp, bottom = 4.dp)
                     .weight(1f)
-            )
-            Button(
-                modifier = Modifier
-                    .background(selectedCar.bgColor),
-                onClick = {},
+                    .height(50.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
             ) {
-                Text("Book")
+                Text(
+                    "Book Car",
+                    color = Primary,
+                    fontWeight = FontWeight.ExtraBold,
+                    fontSize = 18.sp,
+                    modifier = Modifier.padding(end = 8.dp)
+                )
+                Icon(
+                    imageVector = Icons.Default.ArrowForward,
+                    contentDescription = "Forward",
+                    tint = Primary,
+                    modifier = Modifier
+                        .size(28.dp)
+                        .padding(4.dp)
+
+                )
             }
         }
 
+        Spacer(
+            modifier = Modifier
+                .height(16.dp)
+                .align(Alignment.BottomEnd)
+        )
     }
+
 
 }
 
@@ -323,14 +367,15 @@ private fun CarCard(
 fun CartInfos(
     modifier: Modifier = Modifier,
     @DrawableRes image: Int,
-    text: String) {
+    text: String
+) {
     Column(
         modifier = modifier
             .background(
                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.3f),
                 shape = RoundedCornerShape(24.dp)
             )
-            .padding(start = 25.dp, end = 25.dp , top = 16.dp, bottom = 16.dp),
+            .padding(start = 25.dp, end = 25.dp, top = 16.dp, bottom = 16.dp),
     ) {
 
         Image(
