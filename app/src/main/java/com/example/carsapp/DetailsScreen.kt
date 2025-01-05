@@ -1,7 +1,7 @@
 package com.example.carsapp
 
-import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -12,11 +12,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -27,9 +25,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -48,17 +44,16 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.carsapp.ui.Car
 import com.example.carsapp.ui.Rater
-
 import com.example.carsapp.ui.theme.CarsAppTheme
 import com.example.carsapp.ui.theme.Primary
 import com.example.carsapp.ui.viewmodel.SharedViewModel
 
 @Composable
 fun DetailsScreen(
+    @DrawableRes image: Int,
     viewModel: SharedViewModel,
     navController: NavController
 ) {
-
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background,
@@ -78,7 +73,8 @@ fun DetailsScreen(
             )
             DetailsScreenContent(
                 onBackClick = { navController.popBackStack() },
-                selectedCar = viewModel.selectedCar.collectAsState().value!!
+                selectedCar = viewModel.selectedCar.collectAsState().value!!,
+                image = image
             )
         }
     }
@@ -88,7 +84,8 @@ fun DetailsScreen(
 @Composable
 fun DetailsScreenContent(
     onBackClick: () -> Unit,
-    selectedCar: Car
+    selectedCar: Car,
+    @DrawableRes image: Int
 ) {
     Box(
         modifier = Modifier
@@ -126,7 +123,7 @@ fun DetailsScreenContent(
                     .fillMaxWidth()
             ) {
                 Column {
-                    CarCard(selectedCar, Modifier, onBackClick)
+                    CarCard(selectedCar, Modifier, onBackClick, image)
                     Spacer(
                         modifier = Modifier
                             .height(30.dp)
@@ -230,7 +227,8 @@ fun DetailsScreenContent(
 private fun CarCard(
     selectedCar: Car,
     modifier: Modifier,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    @DrawableRes image: Int
 ) {
     Column(
         modifier = Modifier
@@ -256,7 +254,7 @@ private fun CarCard(
                 .padding(top = 16.dp)
         )
         Image(
-            painter = painterResource(selectedCar.image),
+            painter = painterResource(image),
             contentDescription = selectedCar.name,
             modifier = Modifier.fillMaxWidth()
         )
@@ -416,7 +414,7 @@ private fun DetailsScreenContentPreview() {
                     R.drawable.m_2, R.drawable.m_1, R.drawable.m_3
                 ),
                 bgColor = Color.Red
-            )
+            ), image = R.drawable.ferrari_car
         )
     }
 }
