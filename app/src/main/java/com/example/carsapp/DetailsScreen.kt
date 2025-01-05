@@ -3,6 +3,8 @@ package com.example.carsapp
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.util.Log
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -16,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -30,7 +33,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -230,6 +235,14 @@ private fun CarCard(
     onBackClick: () -> Unit,
     @DrawableRes image: Int
 ) {
+
+    val animatedX = remember { Animatable(150f) }
+    val animatedY = remember { Animatable(0f) }
+
+    LaunchedEffect(Unit) {
+        animatedX.animateTo(0f, animationSpec = tween(durationMillis = 500))
+        animatedY.animateTo(0f, animationSpec = tween(durationMillis = 500))
+    }
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -257,6 +270,7 @@ private fun CarCard(
             painter = painterResource(image),
             contentDescription = selectedCar.name,
             modifier = Modifier.fillMaxWidth()
+                .offset(x = animatedX.value.dp, y = animatedY.value.dp)
         )
 
         Row(

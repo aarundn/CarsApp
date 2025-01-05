@@ -1,7 +1,6 @@
 package com.example.carsapp
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -110,6 +109,7 @@ class MainActivity : ComponentActivity() {
                         route = "${Details.route}/${"{photoUrl}"}",
                         arguments = listOf(navArgument("photoUrl") { type = NavType.IntType }),
                         enterTransition = {
+
                             fadeIn(
                                 animationSpec = tween(
                                     300, easing = LinearEasing
